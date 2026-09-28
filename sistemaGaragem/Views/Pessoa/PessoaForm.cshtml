@@ -1,0 +1,52 @@
+@model Pessoa
+@{
+    var edicao = Model.Id > 0;
+    var acao = edicao ? "Edit" : "Create";
+    string? rotaId = edicao ? Model.Id.ToString() : null;
+    ViewData["Title"] = edicao ? "Editar pessoa" : "Nova pessoa";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form asp-action="@acao" asp-route-id="@rotaId" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="Nome" class="form-label"></label> <span class="text-danger">*</span>
+                        <input asp-for="Nome" class="form-control" autofocus />
+                        <span asp-validation-for="Nome" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Cpf" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="Cpf" class="form-control" placeholder="000.000.000-00" maxlength="14" />
+                            <span asp-validation-for="Cpf" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Telefone" class="form-label"></label>
+                            <input asp-for="Telefone" class="form-control" placeholder="(64) 99999-0000" />
+                            <span asp-validation-for="Telefone" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Email" class="form-label"></label> <span class="text-danger">*</span>
+                        <input asp-for="Email" class="form-control" placeholder="nome@email.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

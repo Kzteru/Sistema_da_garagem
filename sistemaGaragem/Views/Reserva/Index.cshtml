@@ -1,0 +1,171 @@
+@model ReservaIndexViewModel
+@{
+    ViewData["Title"] = "Reservas";
+    var disponiveis = Model.Veiculos.Count(v => v.Disponivel);
+
+    string ClasseSituacao(string situacao) => situacao switch
+    {
+        "Em andamento" => "bg-warning text-dark",
+        "Futura" => "bg-info text-dark",
+        _ => "bg-secondary"
+    };
+}
+
+<div class="mb-4">
+    <h1 class="h3 mb-0">Reservas</h1>
+    <p class="text-muted mb-0">Hoje é @Model.Hoje.ToString("dddd, dd/MM/yyyy")</p>
+</div>
+
+<div class="row g-4 mb-4">
+    @* ---------- Nova reserva ---------- *@
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-header fw-semibold">Nova reserva</div>
+            <div class="card-body">
+                @if (Model.OpcoesVeiculos.Count == 0 || Model.OpcoesPessoas.Count == 0)
+                {
+                    <div class="alert alert-warning small">
+                        Para reservar, cadastre pelo menos
+                        <a asp-controller="Veiculo" asp-action="Create">um veículo</a> e
+                        <a asp-controller="Pessoa" asp-action="Create">uma pessoa</a>.
+                    </div>
+                }
+
+                <form asp-action="Create" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="NovaReserva.VeiculoId" class="form-label"></label>
+                        <select asp-for="NovaReserva.VeiculoId" asp-items="Model.OpcoesVeiculos" class="form-select">
+                            <option value="0">— Selecione o veículo —</option>
+                        </select>
+                        <span asp-validation-for="NovaReserva.VeiculoId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NovaReserva.PessoaId" class="form-label"></label>
+                        <select asp-for="NovaReserva.PessoaId" asp-items="Model.OpcoesPessoas" class="form-select">
+                            <option value="0">— Selecione a pessoa —</option>
+                        </select>
+                        <span asp-validation-for="NovaReserva.PessoaId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label asp-for="NovaReserva.DataInicio" class="form-label"></label>
+                            <input asp-for="NovaReserva.DataInicio" class="form-control" />
+                            <span asp-validation-for="NovaReserva.DataInicio" class="text-danger small"></span>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label asp-for="NovaReserva.DataFim" class="form-label"></label>
+                            <input asp-for="NovaReserva.DataFim" class="form-control" />
+                            <span asp-validation-for="NovaReserva.DataFim" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Reservar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @* ---------- Status dos veículos hoje ---------- *@
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">Veículos hoje</span>
+                <span class="small text-muted">@disponiveis de @Model.Veiculos.Count disponível(is)</span>
+            </div>
+            @if (Model.Veiculos.Count == 0)
+            {
+                <div class="card-body text-muted">Nenhum veículo cadastrado.</div>
+            }
+            else
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var item in Model.Veiculos)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="fw-semibold">@item.Veiculo.Placa</span>
+                                <span class="text-muted">· @item.Veiculo.Marca @item.Veiculo.Modelo (@item.Veiculo.Ano)</span>
+                            </div>
+                            @if (item.Disponivel)
+                            {
+                                <span class="badge bg-success">Disponível</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Reservado</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</div>
+
+@* ---------- Lista de reservas ---------- *@
+<div class="card shadow-sm">
+    <div class="card-header d-flex flex-wrap gap-2 justify-content-between align-items-center">
+        <span class="fw-semibold">Reservas cadastradas</span>
+        <form asp-action="Index" method="get" class="d-flex gap-2">
+            <select name="pessoaId" class="form-select form-select-sm" onchange="this.form.submit()" aria-label="Filtrar por pessoa">
+                <option value="">Todas as pessoas</option>
+                @foreach (var opcao in Model.OpcoesPessoas)
+                {
+                    <option value="@opcao.Value" selected="@(opcao.Value == Model.FiltroPessoaId?.ToString())">@opcao.Text</option>
+                }
+            </select>
+            <noscript><button type="submit" class="btn btn-sm btn-outline-secondary">Filtrar</button></noscript>
+        </form>
+    </div>
+
+    @if (Model.Reservas.Count == 0)
+    {
+        <div class="card-body text-muted">Nenhuma reserva encontrada.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Veículo</th>
+                        <th>Pessoa</th>
+                        <th>Período</th>
+                        <th>Situação</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model.Reservas)
+                    {
+                        var classeSituacao = ClasseSituacao(r.Situacao);
+                        <tr>
+                            <td>
+                                <span class="fw-semibold">@r.Placa</span><br />
+                                <span class="small text-muted">@r.Modelo</span>
+                            </td>
+                            <td>@r.NomePessoa</td>
+                            <td class="text-nowrap">
+                                @r.DataInicio.ToString("dd/MM/yyyy") a @r.DataFim.ToString("dd/MM/yyyy")<br />
+                                <span class="small text-muted">@r.QuantidadeDias dia(s)</span>
+                            </td>
+                            <td><span class="badge @classeSituacao">@r.Situacao</span></td>
+                            <td class="text-end text-nowrap">
+                                <a asp-action="Edit" asp-route-id="@r.Id" class="btn btn-sm btn-outline-secondary">Editar período</a>
+                                <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline"
+                                      data-confirmacao="Cancelar a reserva do veículo @(r.Placa) para @(r.NomePessoa)?"
+                                      onsubmit="return confirm(this.dataset.confirmacao);">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

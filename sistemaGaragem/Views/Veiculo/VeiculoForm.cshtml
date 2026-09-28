@@ -1,0 +1,59 @@
+@model Veiculo
+@{
+    var edicao = Model.Id > 0;
+    var acao = edicao ? "Edit" : "Create";
+    string? rotaId = edicao ? Model.Id.ToString() : null;
+    ViewData["Title"] = edicao ? "Editar veículo" : "Novo veículo";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form asp-action="@acao" asp-route-id="@rotaId" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Placa" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="Placa" class="form-control text-uppercase" placeholder="ABC1D23" maxlength="8" autofocus />
+                            <span asp-validation-for="Placa" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Ano" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="Ano" class="form-control" />
+                            <span asp-validation-for="Ano" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Marca" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="Marca" class="form-control" placeholder="Ex.: Fiat" />
+                            <span asp-validation-for="Marca" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Modelo" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="Modelo" class="form-control" placeholder="Ex.: Argo" />
+                            <span asp-validation-for="Modelo" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Cor" class="form-label"></label>
+                        <input asp-for="Cor" class="form-control" placeholder="Ex.: Prata" />
+                        <span asp-validation-for="Cor" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

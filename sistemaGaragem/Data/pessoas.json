@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "nome": "Ana Souza",
+    "cpf": "529.982.247-25",
+    "email": "ana.souza@email.com",
+    "telefone": "(64) 99999-0001"
+  },
+  {
+    "id": 2,
+    "nome": "Bruno Oliveira",
+    "cpf": "123.456.789-09",
+    "email": "bruno.oliveira@email.com",
+    "telefone": "(64) 99999-0002"
+  },
+  {
+    "id": 3,
+    "nome": "Carla Mendes",
+    "cpf": "987.654.321-00",
+    "email": "carla.mendes@email.com",
+    "telefone": null
+  },
+  {
+    "id": 4,
+    "nome": "Diego Ferreira",
+    "cpf": "418.632.705-07",
+    "email": "diego.ferreira@email.com",
+    "telefone": "(64) 98888-0004"
+  },
+  {
+    "id": 5,
+    "nome": "nal do canal",
+    "cpf": "043.410.831-63",
+    "email": "naldocanal@gmail.com",
+    "telefone": "(64) 557878-6767"
+  }
+]

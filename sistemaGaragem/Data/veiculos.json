@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "placa": "ABC1D23",
+    "marca": "Fiat",
+    "modelo": "Argo",
+    "ano": 2022,
+    "cor": "Prata"
+  },
+  {
+    "id": 2,
+    "placa": "BRA2E19",
+    "marca": "Volkswagen",
+    "modelo": "Polo",
+    "ano": 2023,
+    "cor": "Branco"
+  },
+  {
+    "id": 3,
+    "placa": "QWE-4567",
+    "marca": "Chevrolet",
+    "modelo": "Onix",
+    "ano": 2019,
+    "cor": "Preto"
+  },
+  {
+    "id": 4,
+    "placa": "RVD3F45",
+    "marca": "Toyota",
+    "modelo": "Hilux",
+    "ano": 2024,
+    "cor": "Cinza"
+  },
+  {
+    "id": 5,
+    "placa": "GOI-2024",
+    "marca": "Honda",
+    "modelo": "Civic",
+    "ano": 2018,
+    "cor": null
+  },
+  {
+    "id": 6,
+    "placa": "GRA-7492",
+    "marca": "BMW",
+    "modelo": "esportivo",
+    "ano": 2018,
+    "cor": "dourado"
+  }
+]

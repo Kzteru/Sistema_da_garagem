@@ -1,0 +1,52 @@
+@model List<Pessoa>
+@{
+    ViewData["Title"] = "Pessoas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Pessoas</h1>
+    <a asp-action="Create" class="btn btn-primary">+ Nova pessoa</a>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info">Nenhuma pessoa cadastrada ainda.</div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pessoa in Model)
+                    {
+                        <tr>
+                            <td>@pessoa.Nome</td>
+                            <td class="text-nowrap">@pessoa.Cpf</td>
+                            <td>@pessoa.Email</td>
+                            <td class="text-nowrap">@(string.IsNullOrWhiteSpace(pessoa.Telefone) ? "—" : pessoa.Telefone)</td>
+                            <td class="text-end text-nowrap">
+                                <a asp-action="Edit" asp-route-id="@pessoa.Id" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                <form asp-action="Delete" asp-route-id="@pessoa.Id" method="post" class="d-inline"
+                                      data-confirmacao="Excluir @(pessoa.Nome)? Esta ação não pode ser desfeita."
+                                      onsubmit="return confirm(this.dataset.confirmacao);">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="text-muted small mt-2">@Model.Count pessoa(s) cadastrada(s).</p>
+}

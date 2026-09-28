@@ -1,0 +1,47 @@
+@model ReservaFormViewModel
+@{
+    ViewData["Title"] = "Editar período da reserva";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form asp-action="Edit" asp-route-id="@Model.Reserva.Id" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <input type="hidden" asp-for="Reserva.Id" />
+                    <input type="hidden" asp-for="Reserva.VeiculoId" />
+                    <input type="hidden" asp-for="Reserva.PessoaId" />
+
+                    <dl class="row mb-3">
+                        <dt class="col-sm-3">Veículo</dt>
+                        <dd class="col-sm-9">@Model.DescricaoVeiculo</dd>
+                        <dt class="col-sm-3">Pessoa</dt>
+                        <dd class="col-sm-9">@Model.NomePessoa</dd>
+                    </dl>
+
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label asp-for="Reserva.DataInicio" class="form-label"></label>
+                            <input asp-for="Reserva.DataInicio" class="form-control" />
+                            <span asp-validation-for="Reserva.DataInicio" class="text-danger small"></span>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label asp-for="Reserva.DataFim" class="form-label"></label>
+                            <input asp-for="Reserva.DataFim" class="form-control" />
+                            <span asp-validation-for="Reserva.DataFim" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
