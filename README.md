@@ -4,10 +4,9 @@ Sistema de cadastro de **Pessoas**, **Veículos** e **Reservas** (vínculo de um
 
 ## Integrantes
 
-- Nome do integrante 1
-- Nome do integrante 2
-- Nome do integrante 3
-- Nome do integrante 4
+Pedro Marques Moura
+Thallys Heduardo Borba Marques
+Jader Lucas
 
 ## Tecnologias
 
